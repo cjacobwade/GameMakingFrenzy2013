@@ -30,7 +30,7 @@ public class CameraControl : MonoBehaviour {
 		//Ray worldMouse = Camera.main.ScreenPointToRay((Input.GetTouch(0).position + Input.GetTouch(1).position)/2);
 		screenMouse = new Vector3(Input.mousePosition.x,Input.mousePosition.y,0);
 		RaycastHit hit;
-		if(Input.touchCount == 2 && Input.GetTouch(0).phase == TouchPhase.Began)
+		if(Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began)
 		{
 			if(Physics.Raycast(worldMouse,out hit))
 			{
@@ -42,7 +42,7 @@ public class CameraControl : MonoBehaviour {
 			}
 		}
 		
-		else if(Input.touchCount == 2 && Input.GetTouch(0).phase == TouchPhase.Moved)
+		else if(Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Moved)
 		{
 			if(playerRot)
 			{
@@ -53,7 +53,7 @@ public class CameraControl : MonoBehaviour {
 			}
 		}
 		
-		else if(Input.touchCount == 2 && Input.GetTouch(0).phase == TouchPhase.Stationary)
+		else if(Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Stationary)
 		{
 			if(playerRot)
 				//Slow down rot speed to zero
@@ -61,13 +61,19 @@ public class CameraControl : MonoBehaviour {
 		}
 		
 		//stop rotation if touch has ended
-		else if(Input.touchCount == 2 && Input.GetTouch(0).phase == TouchPhase.Ended) playerRot = false; 
+		else if(Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Ended) RotOff();
 		
 		//Movespeed is zero when not touched
-		else moveSpeed = Vector3.SmoothDamp(moveSpeed,Vector3.zero,ref velocity,.7f); 
+		else RotOff();
 		
 		moveSpeed = Vector3.ClampMagnitude(moveSpeed,75f);
 		MoveCamera();
+	}
+	
+	void RotOff()
+	{
+		if(playerRot) playerRot = false;
+		moveSpeed = Vector3.SmoothDamp(moveSpeed,Vector3.zero,ref velocity,.7f); 
 	}
 	
 	void MoveCamera()

@@ -5,7 +5,7 @@ public class Turret : MonoBehaviour {
 	
 	public Vector3 missileOffset;
 	Vector3 lookPoint;
-	public GameObject rotQuad, missile, planet;
+	public GameObject rotQuad, missile, planet, cameraController;
 	GameObject currentTurret;
 	float sections= 5;
 	LineRenderer aimArc;
@@ -36,6 +36,7 @@ public class Turret : MonoBehaviour {
 			{
 				if(hit.transform.gameObject.CompareTag("Turret"))
 				{
+					cameraController.SendMessage("RotOff",SendMessageOptions.DontRequireReceiver);
 					message = "hit turret";
 					currentTurret = hit.transform.parent.gameObject;
 					aimArc = currentTurret.GetComponent<LineRenderer>();
@@ -64,6 +65,7 @@ public class Turret : MonoBehaviour {
 	{
 		if(currentTurret)
 		{
+			cameraController.SendMessage("RotOff",SendMessageOptions.DontRequireReceiver);
 			TurretLook();
 			TurretArc();
 		}
