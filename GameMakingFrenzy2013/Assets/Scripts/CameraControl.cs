@@ -29,7 +29,7 @@ public class CameraControl : MonoBehaviour {
 		{
 			if(Physics.Raycast(worldMouse,out hit))
 			{
-				if(hit.transform.CompareTag("Planet"))
+				if(hit.transform.gameObject.CompareTag("Planet"))
 					initTouch = screenMouse;
 			}
 		}
@@ -44,7 +44,7 @@ public class CameraControl : MonoBehaviour {
 		
 		else if(Input.touchCount == 2 && Input.GetTouch(0).phase == TouchPhase.Stationary)
 		{
-			initTouch =  screenMouse;
+			//initTouch =  screenMouse;
 			moveSpeed = Vector3.SmoothDamp(moveSpeed,Vector3.zero,ref velocity,1.5f);
 		}
 		
