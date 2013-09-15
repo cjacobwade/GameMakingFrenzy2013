@@ -3,7 +3,7 @@ using System.Collections;
 
 public class CameraControl : MonoBehaviour {
 	
-	public Planet planet;
+	public Transform planet;
 	public Vector3 moveSpeed;
 	Vector3 screenMouse, initTouch, currentTouch, velocity = Vector3.zero;
 	public float rotSpeed;
@@ -23,8 +23,11 @@ public class CameraControl : MonoBehaviour {
 	
 	void TouchInput()
 	{
+		//THIS IS JUNK
+		
 		//Need to take average of both fingers, otherwise missing the planet with either finger won't be responsive
 		Ray worldMouse = Camera.main.ScreenPointToRay(Input.mousePosition);
+		//Ray worldMouse = Camera.main.ScreenPointToRay((Input.GetTouch(0).position + Input.GetTouch(1).position)/2);
 		screenMouse = new Vector3(Input.mousePosition.x,Input.mousePosition.y,0);
 		RaycastHit hit;
 		if(Input.touchCount == 2 && Input.GetTouch(0).phase == TouchPhase.Began)
@@ -75,10 +78,10 @@ public class CameraControl : MonoBehaviour {
 	
 	void OnGUI()
 	{
-		GUI.TextArea(new Rect(0,Screen.height/8,Screen.width/6,Screen.height/14),initTouch.ToString());
-		GUI.TextArea(new Rect(0,Screen.height/8+Screen.height/14,Screen.width/6,Screen.height/14),currentTouch.ToString());
-		GUI.TextArea(new Rect(0,Screen.height/8+2*Screen.height/14,Screen.width/6,Screen.height/14),Input.touchCount.ToString());
-		GUI.TextArea(new Rect(0,Screen.height/8+3*Screen.height/14,Screen.width/6,Screen.height/14),moveSpeed.ToString());
+//		GUI.TextArea(new Rect(0,Screen.height/8,Screen.width/6,Screen.height/14),initTouch.ToString());
+//		GUI.TextArea(new Rect(0,Screen.height/8+Screen.height/14,Screen.width/6,Screen.height/14),currentTouch.ToString());
+//		GUI.TextArea(new Rect(0,Screen.height/8+2*Screen.height/14,Screen.width/6,Screen.height/14),Input.touchCount.ToString());
+//		GUI.TextArea(new Rect(0,Screen.height/8+3*Screen.height/14,Screen.width/6,Screen.height/14),moveSpeed.ToString());
 		//rotSpeed = GUI.VerticalSlider(new Rect(Screen.width/8,Screen.height/8+4*Screen.height/14,Screen.width/6,Screen.height/2),rotSpeed,15,1);
 		//GUI.TextArea(new Rect(0,Screen.height/8+4*Screen.height/14,Screen.width/6,Screen.height/14),mousePos.ToString());
 	}
