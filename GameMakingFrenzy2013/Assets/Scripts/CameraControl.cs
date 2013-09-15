@@ -7,12 +7,11 @@ public class CameraControl : MonoBehaviour {
 	public Vector3 moveSpeed;
 	Vector3 screenMouse, initTouch, currentTouch, velocity = Vector3.zero;
 	public float rotSpeed;
-	public Texture2D img;
-	
 	
 	// Use this for initialization
 	void Start () 
 	{
+		
 	}
 	
 	// Update is called once per frame
