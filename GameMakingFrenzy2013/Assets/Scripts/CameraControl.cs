@@ -7,6 +7,7 @@ public class CameraControl : MonoBehaviour {
 	public Vector3 moveSpeed;
 	Vector3 screenMouse, initTouch, currentTouch, velocity = Vector3.zero;
 	public float rotSpeed;
+	bool playerRot = false;
 	
 	// Use this for initialization
 	void Start () 
@@ -22,6 +23,7 @@ public class CameraControl : MonoBehaviour {
 	
 	void TouchInput()
 	{
+		//Need to take average of both fingers, otherwise missing the planet with either finger won't be responsive
 		Ray worldMouse = Camera.main.ScreenPointToRay(Input.mousePosition);
 		screenMouse = new Vector3(Input.mousePosition.x,Input.mousePosition.y,0);
 		RaycastHit hit;
@@ -30,28 +32,38 @@ public class CameraControl : MonoBehaviour {
 			if(Physics.Raycast(worldMouse,out hit))
 			{
 				if(hit.transform.gameObject.CompareTag("Planet"))
+				{
+					playerRot = true;
 					initTouch = screenMouse;
+				}
 			}
 		}
 		
 		else if(Input.touchCount == 2 && Input.GetTouch(0).phase == TouchPhase.Moved)
 		{
-			currentTouch = screenMouse;
-			moveSpeed = currentTouch - initTouch;
-			moveSpeed.y*=-1;
-			moveSpeed*=Time.deltaTime*rotSpeed;
+			if(playerRot)
+			{
+				currentTouch = screenMouse;
+				moveSpeed = currentTouch - initTouch;
+				moveSpeed.y*=-1;
+				moveSpeed*=Time.deltaTime*rotSpeed;
+			}
 		}
 		
 		else if(Input.touchCount == 2 && Input.GetTouch(0).phase == TouchPhase.Stationary)
 		{
-			//initTouch =  screenMouse;
-			moveSpeed = Vector3.SmoothDamp(moveSpeed,Vector3.zero,ref velocity,1.5f);
+			if(playerRot)
+				//Slow down rot speed to zero
+				moveSpeed = Vector3.SmoothDamp(moveSpeed,Vector3.zero,ref velocity,1.5f); 
 		}
 		
-		else moveSpeed = Vector3.SmoothDamp(moveSpeed,Vector3.zero,ref velocity,.7f);
-		if(moveSpeed.magnitude < 0.01f) moveSpeed = Vector3.zero;
-		moveSpeed = Vector3.ClampMagnitude(moveSpeed,75f);
+		//stop rotation if touch has ended
+		else if(Input.touchCount == 2 && Input.GetTouch(0).phase == TouchPhase.Ended) playerRot = false; 
 		
+		//Movespeed is zero when not touched
+		else moveSpeed = Vector3.SmoothDamp(moveSpeed,Vector3.zero,ref velocity,.7f); 
+		
+		moveSpeed = Vector3.ClampMagnitude(moveSpeed,75f);
 		MoveCamera();
 	}
 	

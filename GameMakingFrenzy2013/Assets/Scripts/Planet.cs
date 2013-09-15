@@ -13,7 +13,7 @@ public class Planet : MonoBehaviour {
 	
 	void SetRotateSpeed()
 	{
-		rotSpeed = new Vector3(Random.Range(1f,3f),Random.Range(1f,3f),Random.Range(1f,3f));
+		rotSpeed = new Vector3(Random.Range(1f,2f),Random.Range(1f,2f),Random.Range(1f,2f));
 		rotSpeed*=Time.deltaTime;
 		rotSpeed*= (Random.Range(0,2)*2)-1;
 	}
