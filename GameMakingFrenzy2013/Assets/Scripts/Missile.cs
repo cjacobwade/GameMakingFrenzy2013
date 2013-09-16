@@ -27,6 +27,9 @@ public class Missile : MonoBehaviour {
 		GameObject explosionInstance = Instantiate(explosion,transform.position,transform.rotation) as GameObject;
 		GameObject planet = GameObject.Find("Planet");
 		explosionInstance.transform.parent = planet.transform;
+		
+		//Timed destruction of particle
+		Destroy(explosionInstance,5);
 
 		//Destroy this
 		Destroy(gameObject);
@@ -43,5 +46,9 @@ public class Missile : MonoBehaviour {
 		//Destroy other
 		Destroy (col.transform.gameObject);
 		Detonate();
+		if(col.transform.tag == "Invader")
+		{
+			GameObject.Find("Score").SendMessage("AddScore",1000);	
+		}
 	}
 }
